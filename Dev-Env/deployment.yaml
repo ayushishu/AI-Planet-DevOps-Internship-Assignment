@@ -4,10 +4,11 @@ kind: Deployment
 metadata:
   name: myapp
 spec:
+  replicas: 2
   selector:
+
     matchLabels:
       app: myapp
-  replicas: 2
   template:
     metadata:
       labels:
@@ -18,6 +19,21 @@ spec:
         image: ayushishu/ishuayushiweb
         ports:
         - containerPort: 80
+          protocol: TCP
+  strategy:
+    canary:
+      steps:
+      - setWeight: 10
+        pause:
+          duration: 30s
+      - setWeight: 20
+        pause:
+          duration: 30s
+      - setWeight: 30
+        pause:
+          duration: 30s
+      - setWeight: 100
+
 ---
 # Service 
 apiVersion: v1
@@ -29,6 +45,5 @@ spec:
     app: myapp
   ports:
   - port: 3000
-    protocol: TCP
     targetPort: 80
-  
+    protocol: TCP
