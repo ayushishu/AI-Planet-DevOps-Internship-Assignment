@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: ayushishu/ishuayushiweb
+        image: ayushishu/e-com:v1
         ports:
         - containerPort: 80
           protocol: TCP
